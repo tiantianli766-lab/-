@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-DeepRB: 基于本地 Qwen2.5 与知识增强的冲击地压领域专家助手。
+DeepRB: 基于本地 Qwen2.5:1.5b 与知识增强的冲击地压领域专家助手。
 
 功能：
 1. 冲击地压知识问答：RAG 检索、引用来源、证据不足时拒绝过度判断。
@@ -26,10 +26,11 @@ import streamlit as st
 
 BASE_DIR = Path(__file__).resolve().parent
 PDF_FOLDER = BASE_DIR / "docs"
-DB_PATH = BASE_DIR / "vector_store"
+RAG_EMBEDDING_MODEL = "BAAI/bge-m3"
+DB_PATH = BASE_DIR / "vector_store_bge_m3"
 EXPERT_PROMPT_PATH = BASE_DIR / "rockburst_expert_prompt.md"
 SECOND_FEATURE_DIR = BASE_DIR / "second_feature"
-DEFAULT_MODEL = "qwen2.5"
+DEFAULT_MODEL = "qwen2.5:1.5b"
 PDF_COUNT = len(list(PDF_FOLDER.glob("*.pdf"))) if PDF_FOLDER.exists() else 0
 
 for folder in [PDF_FOLDER, DB_PATH]:
@@ -134,14 +135,19 @@ def load_rag_db():
         from langchain_community.vectorstores import FAISS
         from langchain_text_splitters import RecursiveCharacterTextSplitter
 
-        embedding = HuggingFaceEmbeddings(model_name="BAAI/bge-m3")
+        embedding = HuggingFaceEmbeddings(model_name=RAG_EMBEDDING_MODEL)
 
         if (DB_PATH / "index.faiss").exists() and (DB_PATH / "index.pkl").exists():
-            return FAISS.load_local(
+            db = FAISS.load_local(
                 str(DB_PATH),
                 embedding,
                 allow_dangerous_deserialization=True,
             )
+            query_dim = len(embedding.embed_query("冲击地压"))
+            index_dim = getattr(db.index, "d", query_dim)
+            if index_dim == query_dim:
+                return db
+            st.sidebar.warning("检测到旧向量库维度不一致，正在自动重建知识库。")
 
         pdf_files = sorted(PDF_FOLDER.glob("*.pdf"))
         if not pdf_files:
@@ -278,17 +284,24 @@ def retrieve_evidence(db, query: str, k: int = 5) -> list[dict]:
                 }
             )
         return evidence
-    except Exception:
-        docs = db.similarity_search(query, k=k)
-        return [
-            {
-                "source": os.path.basename(str((doc.metadata or {}).get("source", "未知来源"))),
-                "page": (doc.metadata or {}).get("page", "未知"),
-                "score": None,
-                "content": doc.page_content.strip().replace("\x00", " "),
-            }
-            for doc in docs
-        ]
+    except Exception as exc:
+        try:
+            docs = db.similarity_search(query, k=k)
+            return [
+                {
+                    "source": os.path.basename(str((doc.metadata or {}).get("source", "未知来源"))),
+                    "page": (doc.metadata or {}).get("page", "未知"),
+                    "score": None,
+                    "content": doc.page_content.strip().replace("\x00", " "),
+                }
+                for doc in docs
+            ]
+        except Exception as fallback_exc:
+            st.warning(
+                "知识库检索失败，已降级为无引用回答。"
+                f"原因可能是旧向量库维度不一致：{fallback_exc or exc}"
+            )
+            return []
 
 
 def evidence_to_context(evidence: Iterable[dict], max_chars: int = 4200) -> str:
@@ -566,7 +579,7 @@ def build_report_prompt(res_df: pd.DataFrame, evidence: list[dict]) -> str:
 
 with st.sidebar:
     st.markdown('<div class="main-title" style="font-size:22px;">DeepRB 冲击地压专家助手</div>', unsafe_allow_html=True)
-    st.caption("本地 Qwen2.5 + 冲击地压知识增强")
+    st.caption("本地 Qwen2.5:1.5b + 冲击地压知识增强")
     st.divider()
 
     model_name = st.text_input("Ollama 模型名称", value=DEFAULT_MODEL)
