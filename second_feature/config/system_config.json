@@ -1,0 +1,103 @@
+{
+    "acquisition": {
+        "sampling_frequency": 15,
+        "sensor_count": 5,
+        "timestamp_align_error_max": 5,
+        "sensors": [
+            {
+                "name": "钻压传感器",
+                "type": "防爆钻压传感器",
+                "unit": "kN",
+                "range_min": 0,
+                "range_max": 200,
+                "mapping_key": "WOB"
+            },
+            {
+                "name": "扭矩传感器",
+                "type": "防爆扭矩传感器",
+                "unit": "N·m",
+                "range_min": 0,
+                "range_max": 5000,
+                "mapping_key": "torque"
+            },
+            {
+                "name": "转速传感器",
+                "type": "本安型转速传感器",
+                "unit": "r/min",
+                "range_min": 0,
+                "range_max": 300,
+                "mapping_key": "rotational_speed"
+            },
+            {
+                "name": "位移传感器",
+                "type": "防爆位移传感器",
+                "unit": "m",
+                "range_min": 0,
+                "range_max": 100,
+                "mapping_key": "depth"
+            },
+            {
+                "name": "液压压力传感器",
+                "type": "防爆本安型液压压力传感器",
+                "unit": "MPa",
+                "range_min": 0,
+                "range_max": 50,
+                "mapping_key": "hydraulic_pressure"
+            }
+        ]
+    },
+    "denoising": {
+        "wavelet": {
+            "wavelet_name": "db4",
+            "decomposition_level": 5,
+            "threshold_method": "soft"
+        },
+        "kalman": {
+            "initial_Q": 0.005,
+            "initial_R": 0.08,
+            "adaptive_mode": true
+        },
+        "snr_threshold": 20.0
+    },
+    "coal_mechanics": {
+        "initial_borehole_radius": 0.0625,
+        "coal_internal_friction_angle": 30.0,
+        "effective_confining_pressure": 5.0,
+        "fracture_correction_coefficient": {
+            "mild_damage": [0.9, 1.0],
+            "moderate_damage": [0.8, 0.9],
+            "severe_damage": [0.7, 0.8]
+        },
+        "damage_variable": {
+            "intact": 0.0,
+            "mild_range": [0.1, 0.3],
+            "moderate_range": [0.3, 0.6],
+            "severe_range": [0.6, 1.0]
+        }
+    },
+    "validation": {
+        "missing_rate_threshold": 0.05,
+        "outlier_detection_sigma": 3.0,
+        "mechanical_parameter_ranges": {
+            "mse": [0.0, 100.0],
+            "uniaxial_compressive_strength": [0.0, 50.0],
+            "in_situ_stress": [0.0, 80.0],
+            "plastic_zone_radius_ratio": [1.0, 5.0]
+        }
+    },
+    "storage": {
+        "base_dir": "./workspace",
+        "raw_data_dir": "01_raw_cache",
+        "intermediate_data_dir": "02_processed",
+        "final_result_dir": "03_inversion_reports",
+        "log_dir": "04_system_logs",
+        "export_formats": ["csv", "xlsx"],
+        "database_file": "analysis_history.db"
+    },
+    "log": {
+        "level": "INFO",
+        "max_file_size": 10485760,
+        "backup_count": 3,
+        "format": "%(asctime)s - %(module)s - %(levelname)s - %(message)s"
+    }
+}

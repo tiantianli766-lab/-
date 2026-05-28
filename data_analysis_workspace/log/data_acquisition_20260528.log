@@ -1,0 +1,5 @@
+2026-05-28 16:43:30,980 - [INFO] - [IO_TRANS] 启动物理载荷文件检索加载，目标路径: C:\Users\24303\Desktop\冲击地压垂域大模型\second_feature\raw_data\20260528_164329_drilling_test_data(1).csv
+2026-05-28 16:43:31,034 - [INFO] - [PROCESS_COMPLETE] 同步化重构协议执行结束，有效记录对齐基数: 500
+2026-05-28 16:46:35,970 - [INFO] - [IO_TRANS] 启动物理载荷文件检索加载，目标路径: C:\Users\24303\Desktop\冲击地压垂域大模型\second_feature\raw_data\418.1(1).xlsx
+2026-05-28 16:46:36,379 - [WARNING] - [FIELD_MISSING] 通道 hydraulic_pressure 缺失语义关联，系统自动执行零值初始化替代
+2026-05-28 16:46:36,383 - [INFO] - [PROCESS_COMPLETE] 同步化重构协议执行结束，有效记录对齐基数: 1460

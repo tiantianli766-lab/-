@@ -1,0 +1,4 @@
+2026-05-28 16:43:31,048 - [INFO] - Execution logic initialized: ref_depth=600.0, lateral_coeff=1.2
+2026-05-28 16:43:31,054 - [INFO] - Analytical inversion complete. Output records: 500
+2026-05-28 16:46:36,399 - [INFO] - Execution logic initialized: ref_depth=600.0, lateral_coeff=1.2
+2026-05-28 16:46:36,405 - [INFO] - Analytical inversion complete. Output records: 1460

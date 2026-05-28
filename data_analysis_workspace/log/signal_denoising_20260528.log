@@ -1,0 +1,13 @@
+2026-05-28 16:43:30,977 - [INFO] - [SignalDenoisingModule] [INF] 滤波协处理器构建完毕 | Wavelet-Level: 5 | Kalman-Covariance: Q=0.005, R=0.08
+2026-05-28 16:43:31,034 - [INFO] - [SignalDenoisingModule] [INF] 下发并行全量多维物理通道信号除噪指令
+2026-05-28 16:43:31,041 - [INFO] - [SignalDenoisingModule] [INF] WOB 通道解析脱网，算理增益测度 (SNR): 15.50 dB
+2026-05-28 16:43:31,043 - [INFO] - [SignalDenoisingModule] [INF] torque 通道解析脱网，算理增益测度 (SNR): 18.00 dB
+2026-05-28 16:43:31,045 - [INFO] - [SignalDenoisingModule] [INF] rotational_speed 通道解析脱网，算理增益测度 (SNR): 36.18 dB
+2026-05-28 16:43:31,047 - [INFO] - [SignalDenoisingModule] [INF] ROP 通道解析脱网，算理增益测度 (SNR): 41.40 dB
+2026-05-28 16:43:31,048 - [INFO] - [SignalDenoisingModule] [INF] hydraulic_pressure 通道解析脱网，算理增益测度 (SNR): 24.44 dB
+2026-05-28 16:46:36,383 - [INFO] - [SignalDenoisingModule] [INF] 下发并行全量多维物理通道信号除噪指令
+2026-05-28 16:46:36,387 - [INFO] - [SignalDenoisingModule] [INF] WOB 通道解析脱网，算理增益测度 (SNR): 34.17 dB
+2026-05-28 16:46:36,390 - [INFO] - [SignalDenoisingModule] [INF] torque 通道解析脱网，算理增益测度 (SNR): 69.85 dB
+2026-05-28 16:46:36,393 - [INFO] - [SignalDenoisingModule] [INF] rotational_speed 通道解析脱网，算理增益测度 (SNR): 37.93 dB
+2026-05-28 16:46:36,396 - [INFO] - [SignalDenoisingModule] [INF] ROP 通道解析脱网，算理增益测度 (SNR): 7.51 dB
+2026-05-28 16:46:36,398 - [INFO] - [SignalDenoisingModule] [INF] hydraulic_pressure 通道解析脱网，算理增益测度 (SNR): nan dB

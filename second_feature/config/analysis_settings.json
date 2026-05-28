@@ -1,0 +1,76 @@
+{
+    "acquisition": {
+        "sampling_frequency": 15,
+        "input_format": "csv/xlsx",
+        "auto_alignment": true,
+        "sensors": [
+            {
+                "name": "钻压传感器",
+                "unit": "kN",
+                "range_min": 0,
+                "range_max": 200,
+                "mapping_key": "WOB"
+            },
+            {
+                "name": "扭矩传感器",
+                "unit": "N·m",
+                "range_min": 0,
+                "range_max": 5000,
+                "mapping_key": "Torque"
+            },
+            {
+                "name": "转速传感器",
+                "unit": "r/min",
+                "range_min": 0,
+                "range_max": 300,
+                "mapping_key": "RPM"
+            },
+            {
+                "name": "位移传感器",
+                "unit": "m",
+                "range_min": 0,
+                "range_max": 100,
+                "mapping_key": "Depth"
+            },
+            {
+                "name": "液压压力传感器",
+                "unit": "MPa",
+                "range_min": 0,
+                "range_max": 50,
+                "mapping_key": "Pressure"
+            }
+        ]
+    },
+    "denoising": {
+        "wavelet": {
+            "wavelet_name": "db4",
+            "decomposition_level": 5,
+            "threshold_method": "soft"
+        },
+        "kalman": {
+            "initial_Q": 0.005,
+            "initial_R": 0.08,
+            "adaptive_mode": true
+        }
+    },
+    "coal_mechanics": {
+        "initial_borehole_radius": 0.0625,
+        "friction_angle_default": 32.0,
+        "confining_pressure_ref": 4.5,
+        "mse_efficiency": 0.35,
+        "warning_thresholds": {
+            "stress_alert": 0.75,
+            "plastic_ratio": 1.25
+        }
+    },
+    "storage": {
+        "base_dir": "./data_analysis_workspace",
+        "input_raw_dir": "raw_data",
+        "report_out_dir": "analysis_reports",
+        "db_cache": "analysis_history.db"
+    },
+    "log": {
+        "level": "INFO",
+        "format": "%(asctime)s - [%(levelname)s] - %(message)s"
+    }
+}
